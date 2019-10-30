@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "244269351741",
+    "firebase_url": "https://gippi-b73a7.firebaseio.com",
+    "project_id": "gippi-b73a7",
+    "storage_bucket": "gippi-b73a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244269351741:android:ac3e6fe1287f8ba2",
+        "android_client_info": {
+          "package_name": "com.example.agriculture_iot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244269351741-891fbhcklgoipligik0l9b64egilo0as.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuG1-LoUoyMwXpKV_rRAcuQt4koRr5mYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244269351741-891fbhcklgoipligik0l9b64egilo0as.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "244269351741-o9k9jrif2obj9ciujqaru5q1rnjbi2id.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.agrimasterApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244269351741:android:8591eb7f074f09798bfb54",
+        "android_client_info": {
+          "package_name": "com.example.agrimaster_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244269351741-891fbhcklgoipligik0l9b64egilo0as.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuG1-LoUoyMwXpKV_rRAcuQt4koRr5mYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244269351741-891fbhcklgoipligik0l9b64egilo0as.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "244269351741-o9k9jrif2obj9ciujqaru5q1rnjbi2id.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.agrimasterApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
