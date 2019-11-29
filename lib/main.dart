@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,14 +11,14 @@ void main() {
       '/login': (_) => new Login(),
       '/registration': (_) => new Registration(),
       '/home': (_) => new Home(),
-      '/next': (_) => new Next(),
+      '/setting': (_) => new Setting(),
     },
   ));
 }
 
-// ---------
+// --------------
 // スプラッシュ画面
-// ---------
+// --------------
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => new _SplashState();
@@ -49,9 +49,9 @@ class _SplashState extends State<Splash> {
   }
 }
 
-// ---------
+// -----------
 // ログイン画面
-// ---------
+// -----------
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => new _LoginState();
@@ -73,10 +73,10 @@ class _LoginState extends State<Login> {
               children: <Widget>[
                 const SizedBox(height: 24.0),
                 new TextFormField(
-                  maxLength: 50,
+                  maxLength: 30,
                   decoration: const InputDecoration(
                     border: const UnderlineInputBorder(),
-                    labelText: 'ユーザID',
+                    labelText: 'メールアドレス',
                   ),
                 ),
                 const SizedBox(height: 24.0),
@@ -142,10 +142,18 @@ class _RegistrationState extends State<Registration> {
               children: <Widget>[
                 const SizedBox(height: 24.0),
                 new TextFormField(
-                  maxLength: 50,
+                  maxLength: 30,
                   decoration: const InputDecoration(
                     border: const UnderlineInputBorder(),
-                    labelText: 'ユーザID',
+                    labelText: 'ユーザ名',
+                  ),
+                ),
+                const SizedBox(height: 24.0),
+                new TextFormField(
+                  maxLength: 30,
+                  decoration: const InputDecoration(
+                    border: const UnderlineInputBorder(),
+                    labelText: 'メールアドレス',
                   ),
                 ),
                 const SizedBox(height: 24.0),
@@ -161,9 +169,10 @@ class _RegistrationState extends State<Registration> {
                   child: new RaisedButton(
                     child: const Text('新規登録'),
                     onPressed: () {
-                      // TODO: ログイン処理
+                      // TODO: 新規登録処理
+
                       // ホーム画面へ
-                      Navigator.of(context).pushReplacementNamed("/home");
+                      Navigator.of(context).pushReplacementNamed("/login");
                     },
                   ),
                 ),
@@ -196,13 +205,18 @@ class Home extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: const Text("ホーム"),
+        actions: <Widget>[      // Add 3 lines from here...
+          IconButton(icon: Icon(Icons.settings), onPressed:(){
+            Navigator.of(context).pushNamed("/setting");
+          } ),
+        ], 
       ),
       body: new Center(
         child: new RaisedButton(
           child: const Text("設定"),
           onPressed: () {
-            // その他の画面へ
-            Navigator.of(context).pushNamed("/next");
+            // 設定画面へ
+            Navigator.of(context).pushNamed("/setting");
           },
         ),
       ),
@@ -211,14 +225,18 @@ class Home extends StatelessWidget {
 }
 
 // ---------
-// その他画面
+// 設定画面
 // ---------
-class Next extends StatefulWidget {
+class Setting extends StatefulWidget {
   @override
-  _NextState createState() => new _NextState();
+  _SettingState createState() => new _SettingState();
 }
 
-class _NextState extends State<Next> {
+class _SettingState extends State<Setting> {
+
+  bool _active = false;
+  void _changeSwitch(bool e) => setState(() => _active = e);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -236,16 +254,31 @@ class _NextState extends State<Next> {
                 Navigator.of(context).pushNamed("/next");
               },
             ),*/
-            const SizedBox(height: 24.0),
-            new RaisedButton(
+
+            new SwitchListTile(
+            value: _active,
+            activeColor: Colors.orange,
+            activeTrackColor: Colors.red,
+            inactiveThumbColor: Colors.blue,
+            inactiveTrackColor: Colors.grey,
+            title: Text('通知'),
+            onChanged: _changeSwitch,
+          ),
+
+          const Text("温度設定"),
+          const Text("下限"),
+          const Text("上限"),
+
+          const SizedBox(height: 24.0),
+          new RaisedButton(
               child: const Text("ホーム"),
               onPressed: () {
                 // ホーム画面へ戻る　
                 Navigator.popUntil(context, ModalRoute.withName("/home"));
               },
             ),
-            const SizedBox(height: 24.0),
-            new RaisedButton(
+          const SizedBox(height: 24.0),
+          new RaisedButton(
               child: const Text("ログアウト"),
               onPressed: () {
                 // 確認ダイアログ表示
