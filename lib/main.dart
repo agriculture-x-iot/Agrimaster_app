@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -236,16 +237,43 @@ class _SettingState extends State<Setting> {
 
   bool _active = false;
   void _changeSwitch(bool e) => setState(() => _active = e);
+  var _start = '';
+  var _end = '';
+  var _rangeValues = RangeValues(40.0, 60.0);
+
+  _updateLabels(RangeValues values) {
+    _start = '${_rangeValues.start.round()}';
+    _end = '${_rangeValues.end.round()}';
+  }
+
+  @override
+  void initState() {
+    _updateLabels(_rangeValues);
+    super.initState();
+  }
+
+  GlobalKey<ScaffoldState> screen = GlobalKey<ScaffoldState>();
+  /*
+  final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
+
+  void _showBar(){
+    _scaffoldstate.currentState.showSnackBar(new SnackBar(content: new Text('設定温度を確定しました！')));
+  }
+
+   */
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: const Text("設定"),
-      ),
-      body: new Center(
-        child: new Column(
-          children: <Widget>[
+      key: screen,
+      //key: _scaffoldstate,
+        appBar: new AppBar(
+            title: const Text("設定"),
+        ),
+        body: new Center(
+            child: new Column(
+                children: <Widget>[
+
             /*const SizedBox(height: 24.0),
             new RaisedButton(
               child: const Text("次の画面"),
@@ -254,59 +282,169 @@ class _SettingState extends State<Setting> {
                 Navigator.of(context).pushNamed("/next");
               },
             ),*/
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
+                  child: SwitchListTile(
+                    value: _active,
+                    activeColor: Colors.orange,
+                    activeTrackColor: Colors.red,
+                    inactiveThumbColor: Colors.blue,
+                    inactiveTrackColor: Colors.grey,
+                    title: Text('通知', style: TextStyle(fontSize: 20)),
+                      onChanged: _changeSwitch,
+                  ),
+                ),
 
-            new SwitchListTile(
-            value: _active,
-            activeColor: Colors.orange,
-            activeTrackColor: Colors.red,
-            inactiveThumbColor: Colors.blue,
-            inactiveTrackColor: Colors.grey,
-            title: Text('通知'),
-            onChanged: _changeSwitch,
-          ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 35.0),
+                  child: Text("温度を設定", style: TextStyle(fontSize: 25)),
+                ),
+                SliderTheme(
+                    data: SliderThemeData(
+                    activeTrackColor: Colors.blue,
+                    inactiveTrackColor:  Colors.green,
+                    showValueIndicator: ShowValueIndicator.always,
+                    ),
+                    child: RangeSlider(
+                        labels: RangeLabels(_start, _end),
+                        values: _rangeValues,
+                        min: 1,
+                        max: 100,
+                        divisions: 100,
+                        onChanged: (values) {
+                          _rangeValues = values;
+                          setState(() => _updateLabels(values));
+                        },
+                    ),
+                ),
 
-          const Text("温度設定"),
-          const Text("下限"),
-          const Text("上限"),
+                Container(
+                    padding: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '$_start℃',
+                                    style: TextStyle(fontSize: 40),
+                                ),
+                                Text('下限'),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '$_end℃',
+                                    style: TextStyle(fontSize: 40),
+                                ),
+                                Text('上限'),
+                              ],
+                            ),
+                          ],
+                      ),
+                ),
 
-          const SizedBox(height: 24.0),
-          new RaisedButton(
-              child: const Text("ホーム"),
-              onPressed: () {
+                RaisedButton(
+                  onPressed: () {
+                    //TODO:設定温度送信
+                    screen.currentState.removeCurrentSnackBar();
+                    screen.currentState
+                        .showSnackBar(SnackBar(
+                          content: Text('温度設定を確定しました！')));
+                  },
+                  child: Text('温度設定'),
+                ),
+
+                Container(
+                        padding: EdgeInsets.only(top: 20),
+                            child: Text("アカウント", 
+                              style: TextStyle(fontSize: 25)),
+                ),
+
+
+                TextFormField(
+                  maxLines: 1,
+                  autofocus: false,
+                  decoration: new InputDecoration(
+                    hintText: 'メールアドレス',
+                    icon: new Icon(
+                      Icons.mail,
+                      color: Colors.grey,
+                    )
+                  ),
+                ),
+
+
+                TextFormField(
+                  maxLines: 1,
+                  obscureText: true,
+                  autofocus: false,
+                  decoration: new InputDecoration(
+                    hintText: 'Password',
+                    icon: new Icon(
+                      Icons.lock,
+                      color: Colors.grey,
+                    )
+                  ),
+                ),
+
+
+                //const SizedBox(height: 24.0),
+                /*new RaisedButton(
+                    child: const Text("ホーム"),
+                        onPressed: () {
                 // ホーム画面へ戻る　
-                Navigator.popUntil(context, ModalRoute.withName("/home"));
-              },
-            ),
-          const SizedBox(height: 24.0),
-          new RaisedButton(
-              child: const Text("ログアウト"),
-              onPressed: () {
-                // 確認ダイアログ表示
-                showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
+                            Navigator.popUntil(context, ModalRoute.withName("/home"));
+                        },
+                ),
+
+                 */
+                const SizedBox(height: 24.0),
+                new RaisedButton(
+                      color: Colors.redAccent,
+                      shape: StadiumBorder(),
+                      child: const Text("ログアウト"),
+                        onPressed: () {
+                    // 確認ダイアログ表示
+                            showDialog<bool>(
+                                context: context,
+                                builder: (BuildContext context) {
                     return new AlertDialog(
-                      content: const Text('ログアウトしてもよろしいですか？'),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: const Text('いいえ'),
-                          onPressed: () {
-                            // 引数をfalseでダイアログ閉じる
-                            Navigator.of(context).pop(false);
-                          },
-                        ),
-                        new FlatButton(
-                          child: const Text('はい'),
-                          onPressed: () {
-                            // 引数をtrueでダイアログ閉じる
-                            Navigator.of(context).pop(true);
-                          },
-                        ),
-                      ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                        content: const Text('ログアウトしてもよろしいですか？'),
+                        actions: <Widget>[
+                                new RaisedButton(
+                                    color: Colors.red,
+                                    shape: StadiumBorder(),
+                                    child: const Text('いいえ', 
+                                      style: TextStyle(color: Colors.white),),
+                                        onPressed: () {
+                                          // 引数をfalseでダイアログ閉じる
+                                          Navigator.of(context).pop(false);
+                                        },
+                                ),
+                                //SizedBox(
+                                //  width: 50,
+                                //),
+                                new RaisedButton(
+                                  color: Colors.blueAccent,
+                                  shape: StadiumBorder(),
+                                  child: const Text('はい', 
+                                    style: TextStyle(color: Colors.white),),
+                                      onPressed: () {
+                                        //TODO:ログアウト
+                                        // 引数をtrueでダイアログ閉じる
+                                        Navigator.of(context).pop(true);
+                                      },
+                                ),
+                        ],
                     );
                   },
-                ).then<void>((aBool) {
-                  // ダイアログがYESで閉じられたら...
+                  ).then<void>((aBool) {
+                    // ダイアログがYESで閉じられたら...
                   if (aBool) {
                     // 画面をすべて除いてスプラッシュを表示
                     Navigator.pushAndRemoveUntil(
