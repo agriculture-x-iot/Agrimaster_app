@@ -233,7 +233,7 @@ class Setting extends StatefulWidget {
   _SettingState createState() => new _SettingState();
 }
 
-class AlwaysDisabledFocusNode extends FocusNode {
+class DisableKeybord extends FocusNode {
   @override
   bool get hasFocus => false;
 }
@@ -254,8 +254,15 @@ class _SettingState extends State<Setting> {
   @override
   void initState() {
     _updateLabels(_rangeValues);
+
+    isPasswordVisible = false;
+    isConfirmPasswordVisible = false;
     super.initState();
   }
+
+  TextEditingController _userConfirmPassword = TextEditingController(text: 'testPasswordDAYO!');
+  bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
 
   GlobalKey<ScaffoldState> screen = GlobalKey<ScaffoldState>();
   /*
@@ -367,32 +374,44 @@ class _SettingState extends State<Setting> {
                               style: TextStyle(fontSize: 25)),
                 ),
 
-
-                TextFormField(
-                  focusNode: AlwaysDisabledFocusNode(),
-                  maxLines: 1,
-                  autofocus: false,
-                  decoration: new InputDecoration(
-                    hintText: 'メールアドレス',
-                    icon: new Icon(
-                      Icons.mail,
-                      color: Colors.grey,
-                    )
+                Container(
+                  child: TextFormField(
+                    initialValue: 'test@mail.com',
+                    focusNode: DisableKeybord(),
+                    maxLines: 1,
+                    autofocus: false,
+                    decoration: new InputDecoration(
+                      hintText: 'メールアドレス',
+                      icon: new Icon(
+                        Icons.mail,
+                        color: Colors.grey,
+                      )
+                    ),
                   ),
                 ),
 
-
-                TextFormField(
-                  focusNode: AlwaysDisabledFocusNode(),
-                  maxLines: 1,
-                  obscureText: true,
-                  autofocus: false,
-                  decoration: new InputDecoration(
-                    hintText: 'Password',
-                    icon: new Icon(
-                      Icons.lock,
-                      color: Colors.grey,
-                    )
+                Container(
+                  child: TextFormField(
+                    controller: _userConfirmPassword,
+                    focusNode: DisableKeybord(),
+                    maxLines: 1,
+                    obscureText: !isConfirmPasswordVisible,
+                    autofocus: false,
+                    decoration: new InputDecoration(
+                      hintText: 'Password',
+                      suffixIcon: IconButton(
+                          icon: Icon(isConfirmPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                      onPressed: (){
+                        setState(() {
+                          isConfirmPasswordVisible =
+                                  !isConfirmPasswordVisible;
+                        });
+                      },
+                    ),
+                    icon: Icon(Icons.lock)
+                    ),
                   ),
                 ),
 
