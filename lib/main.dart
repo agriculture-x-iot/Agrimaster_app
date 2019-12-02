@@ -233,6 +233,11 @@ class Setting extends StatefulWidget {
   _SettingState createState() => new _SettingState();
 }
 
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
 class _SettingState extends State<Setting> {
 
   bool _active = false;
@@ -364,6 +369,7 @@ class _SettingState extends State<Setting> {
 
 
                 TextFormField(
+                  focusNode: AlwaysDisabledFocusNode(),
                   maxLines: 1,
                   autofocus: false,
                   decoration: new InputDecoration(
@@ -377,6 +383,7 @@ class _SettingState extends State<Setting> {
 
 
                 TextFormField(
+                  focusNode: AlwaysDisabledFocusNode(),
                   maxLines: 1,
                   obscureText: true,
                   autofocus: false,
