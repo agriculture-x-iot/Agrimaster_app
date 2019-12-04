@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 
 void main() {
   runApp(new MaterialApp(
+    theme: ThemeData(
+        buttonTheme: ButtonThemeData(minWidth: 12),
+        primarySwatch: Colors.green
+    ),
     debugShowCheckedModeBanner: false,  //デバッグリボン非表示
     title: 'Navigation with Routes',
     routes: <String, WidgetBuilder>{
@@ -290,11 +295,11 @@ class _SettingState extends State<Setting> {
     super.initState();
   }
 
-  TextEditingController _userConfirmPassword = TextEditingController(text: 'testPasswordDAYO!');
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
 
   GlobalKey<ScaffoldState> screen = GlobalKey<ScaffoldState>();
+  
   /*
   final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
 
@@ -314,37 +319,33 @@ class _SettingState extends State<Setting> {
         ),
         body: new Center(
             child: new Column(
-                children: <Widget>[
+              children: <Widget>[
 
-            /*const SizedBox(height: 24.0),
-            new RaisedButton(
-              child: const Text("次の画面"),
-              onPressed: () {
-                // その他の画面へ
-                Navigator.of(context).pushNamed("/next");
-              },
-            ),*/
                 Padding(
-                  padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
-                  child: SwitchListTile(
-                    value: _active,
-                    activeColor: Colors.orange,
-                    activeTrackColor: Colors.red,
-                    inactiveThumbColor: Colors.blue,
-                    inactiveTrackColor: Colors.grey,
-                    title: Text('通知', style: TextStyle(fontSize: 20)),
-                      onChanged: _changeSwitch,
-                  ),
+                  padding: EdgeInsets.only(top: 20, bottom: 10, left: 5),
+                    child: MergeSemantics(
+                      child: ListTile(
+                        title: Text('通知',
+                                style: TextStyle(fontSize:  23)),
+                        trailing: CupertinoSwitch(
+                          value: _active,
+                          onChanged: _changeSwitch,
+                        ),
+                      ),
+                    ),
                 ),
 
-                Padding(
-                  padding: EdgeInsets.only(bottom: 35.0),
-                  child: Text("温度を設定", style: TextStyle(fontSize: 25)),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 35.0, left: 20),
+                    child: Text("温度を設定", style: TextStyle(fontSize: 23)),
+                  ),
                 ),
                 SliderTheme(
                     data: SliderThemeData(
-                    activeTrackColor: Colors.blue,
-                    inactiveTrackColor:  Colors.green,
+                    activeTrackColor: Colors.green[250],
+                    inactiveTrackColor: Colors.grey,
                     showValueIndicator: ShowValueIndicator.always,
                     ),
                     child: RangeSlider(
@@ -361,7 +362,7 @@ class _SettingState extends State<Setting> {
                 ),
 
                 Container(
-                    padding: EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.only(bottom: 5),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -388,6 +389,8 @@ class _SettingState extends State<Setting> {
                 ),
 
                 RaisedButton(
+                  //color: Colors.blueAccent,
+                  shape: StadiumBorder(),
                   onPressed: () {
                     //TODO:設定温度送信
                     screen.currentState.removeCurrentSnackBar();
@@ -395,16 +398,20 @@ class _SettingState extends State<Setting> {
                         .showSnackBar(SnackBar(
                           content: Text('温度設定を確定しました！')));
                   },
-                  child: Text('温度設定'),
+                  child: Text('温度確定',
+                            style: TextStyle(color: Colors.white)
+                            ),
                 ),
 
                 Container(
-                        padding: EdgeInsets.only(top: 20),
-                            child: Text("アカウント", 
-                              style: TextStyle(fontSize: 25)),
+                  alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(top: 20, left: 20),
+                    child: Text("アカウント", 
+                            style: TextStyle(fontSize: 25)),
                 ),
 
                 Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
                   child: TextFormField(
                     initialValue: 'test@mail.com',
                     focusNode: DisableKeybord(),
@@ -421,8 +428,9 @@ class _SettingState extends State<Setting> {
                 ),
 
                 Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
                   child: TextFormField(
-                    controller: _userConfirmPassword,
+                    initialValue: 'testPasswordDAYO!',
                     focusNode: DisableKeybord(),
                     maxLines: 1,
                     obscureText: !isConfirmPasswordVisible,
@@ -433,7 +441,7 @@ class _SettingState extends State<Setting> {
                           icon: Icon(isConfirmPasswordVisible
                               ? Icons.visibility
                               : Icons.visibility_off),
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
                           isConfirmPasswordVisible =
                                   !isConfirmPasswordVisible;
@@ -456,62 +464,61 @@ class _SettingState extends State<Setting> {
                 ),
 
                  */
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 20.0),
                 new RaisedButton(
                       color: Colors.redAccent,
                       shape: StadiumBorder(),
-                      child: const Text("ログアウト"),
+                      child: const Text("ログアウト",
+                                    style: TextStyle(color: Colors.white)),
                         onPressed: () {
                     // 確認ダイアログ表示
                             showDialog<bool>(
                                 context: context,
                                 builder: (BuildContext context) {
-                    return new AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                        content: const Text('ログアウトしてもよろしいですか？'),
-                        actions: <Widget>[
-                                new RaisedButton(
-                                    color: Colors.red,
-                                    shape: StadiumBorder(),
-                                    child: const Text('いいえ', 
-                                      style: TextStyle(color: Colors.white),),
-                                        onPressed: () {
-                                          // 引数をfalseでダイアログ閉じる
-                                          Navigator.of(context).pop(false);
-                                        },
-                                ),
-                                //SizedBox(
-                                //  width: 50,
-                                //),
-                                new RaisedButton(
-                                  color: Colors.blueAccent,
-                                  shape: StadiumBorder(),
-                                  child: const Text('はい', 
-                                    style: TextStyle(color: Colors.white),),
-                                      onPressed: () {
-                                        //TODO:ログアウト
-                                        // 引数をtrueでダイアログ閉じる
-                                        Navigator.of(context).pop(true);
-                                      },
-                                ),
-                        ],
-                    );
-                  },
-                  ).then<void>((aBool) {
-                    // ダイアログがYESで閉じられたら...
-                  if (aBool) {
-                    // 画面をすべて除いてスプラッシュを表示
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new Splash()),
-                        (_) => false);
-                  }
-                });
-              },
-            ),
+                                  return new AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)
+                                    ),
+                                    content: const Text('ログアウトしてもよろしいですか？'),
+                                    actions: <Widget>[
+                                      new RaisedButton(
+                                            color: Colors.red,
+                                            shape: StadiumBorder(),
+                                            child: const Text('いいえ', 
+                                                          style: TextStyle(color: Colors.white),),
+                                            onPressed: () {
+                                              // 引数をfalseでダイアログ閉じる
+                                              Navigator.of(context).pop(false);
+                                            },
+                                        ),
+                                        new RaisedButton(
+                                              color: Colors.blueAccent,
+                                              shape: StadiumBorder(),
+                                              child: const Text('はい', 
+                                                            style: TextStyle(color: Colors.white),),
+                                              onPressed: () {
+                                                //TODO:ログアウト
+                                                // 引数をtrueでダイアログ閉じる
+                                                Navigator.of(context).pop(true);
+                                              },
+                                          ),
+                                      ],
+                                    );
+                                  },
+                                  ).then<void>((aBool) {
+                                    // ダイアログがYESで閉じられたら...
+                                    if (aBool) {
+                                      // 画面をすべて除いてスプラッシュを表示
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        new MaterialPageRoute(
+                                              builder: (context) => new Splash()),
+                                              (_) => false
+                                      );
+                                    }
+                                  });
+                                },
+                ),
           ],
         ),
       ),
