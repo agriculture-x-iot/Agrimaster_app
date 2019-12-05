@@ -35,12 +35,10 @@ class _SettingState extends State<Setting> {
     _updateLabels(_rangeValues);
 
     isPasswordVisible = false;
-    isConfirmPasswordVisible = false;
     super.initState();
   }
 
   bool isPasswordVisible = false;
-  bool isConfirmPasswordVisible = false;
 
   GlobalKey<ScaffoldState> screen = GlobalKey<ScaffoldState>();
 
@@ -174,25 +172,24 @@ class _SettingState extends State<Setting> {
                 Container(
                   padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
                   child: TextFormField(
-                    initialValue: 'testPasswordDAYO!',
+                    onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                     focusNode: DisableKeybord(),
-                    maxLines: 1,
-                    obscureText: !isConfirmPasswordVisible,
-                    autofocus: false,
-                    decoration: new InputDecoration(
+                    initialValue: 'testPasswordDAYO!',
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
                       hintText: 'Password',
                       suffixIcon: IconButton(
-                          icon: Icon(isConfirmPasswordVisible
+                          icon: Icon(isPasswordVisible
                               ? Icons.visibility
                               : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          isConfirmPasswordVisible =
-                                  !isConfirmPasswordVisible;
-                        });
-                      },
-                    ),
-                    icon: Icon(Icons.lock)
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible =
+                                  !isPasswordVisible;
+                          });
+                        },
+                      ),
+                      icon: Icon(Icons.lock)
                     ),
                   ),
                 ),
