@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Login extends StatefulWidget {
@@ -12,6 +13,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  final emailInputController = new TextEditingController();
+  final passwordInputController = new TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -27,6 +33,7 @@ class _LoginState extends State<Login> {
               children: <Widget>[
                 const SizedBox(height: 24.0),
                 new TextFormField(
+                  controller: emailInputController,
                   maxLength: 30,
                   decoration: const InputDecoration(
                     border: const UnderlineInputBorder(),
@@ -35,11 +42,13 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 24.0),
                 new TextFormField(
+                  controller: passwordInputController,
                   maxLength: 16,
                   decoration: new InputDecoration(
                     border: const UnderlineInputBorder(),
                     labelText: 'パスワード',
                   ),
+                  obscureText: true,
                 ),
                 const SizedBox(height: 24.0),
                 new Center(
@@ -48,7 +57,12 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       // TODO: ログイン処理
                       // ホーム画面へ
-                      Navigator.of(context).pushReplacementNamed("/home");
+                      var email = emailInputController.text;
+                      var password = passwordInputController.text;
+                      Future<FirebaseUser> _user = _signIn(email, password)
+                          .then((FirebaseUser user) => Navigator.of(context).pushReplacementNamed("/home"))
+                          .catchError((e) => print(e));
+                      print(_user);
                     },
                   ),
                 ),
@@ -69,4 +83,16 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  Future<FirebaseUser> _signIn(String email, String password) async {
+    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password
+        )).user;
+    print("User id is ${user.uid}");
+
+    return user;
+  }
+
 }
+
