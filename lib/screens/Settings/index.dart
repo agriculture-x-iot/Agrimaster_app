@@ -226,44 +226,57 @@ class _SettingState extends State<Setting> {
 
                 Container(
                   padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-                  child: TextFormField(
-                    initialValue: 'test@mail.com',
-                    focusNode: DisableKeybord(),
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: 'メールアドレス',
-                      icon: Icon(
-                        Icons.mail,
-                        color: Colors.grey,
-                      )
-                    ),
+
+                  child: StreamBuilder(
+                    stream: Firestore.instance.collection('Users').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) 
+                      return Text('Loading...');
+                      return TextFormField(
+                        initialValue: '${snapshot.data.documents[0]['e-mail']}',
+                        focusNode: DisableKeybord(),
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          hintText: 'メールアドレス',
+                          icon: Icon(
+                            Icons.mail,
+                            color: Colors.grey,
+                          )
+                        ),
+                      );
+                    },
                   ),
                 ),
 
                 Container(
                   padding: EdgeInsets.only(top: 10, bottom: 30, left: 20, right: 20),
-                  child: TextFormField(
-                    onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                    focusNode: DisableKeybord(),
-                    maxLines: 1,
-                    initialValue: 'testPasswordDAYO!',
-                    obscureText: !isPasswordVisible,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      suffixIcon: IconButton(
-                          icon: Icon(isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            isPasswordVisible =
-                                  !isPasswordVisible;
-                          });
-                        },
-                      ),
-                      icon: Icon(Icons.lock)
-                    ),
-                  ),
+                  child: StreamBuilder(
+                    stream: Firestore.instance.collection('Users').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) 
+                      return Text('Loading...');
+                      return TextFormField(
+                        focusNode: DisableKeybord(),
+                        maxLines: 1,
+                        initialValue: '${snapshot.data.documents[0]['password'].toString()}',
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordVisible =
+                                      !isPasswordVisible;
+                                  });
+                                },
+                          ),
+                          icon: Icon(Icons.lock)
+                        ),
+                    );
+                    }),
                 ),
 
                 Container(
