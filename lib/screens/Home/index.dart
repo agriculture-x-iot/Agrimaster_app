@@ -28,11 +28,29 @@ class Home extends StatelessWidget {
               style: TextStyle(fontSize: 20)),
             ),
 
-            Padding(
+            Container(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
+                  child: StreamBuilder(
+                    stream: Firestore.instance
+                    .collection('Users')
+                    .document('User1')
+                    .collection('HouseData')
+                    .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) 
+                      return Text('Loading...');
+                      return Text('${snapshot.data.documents[0]['temp']}' + '℃',
+                      style: TextStyle(fontSize: 40)
+                      );
+                    },
+                  ),
+            ),
+
+            /*Padding(
               padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
               child: const Text('20℃',
               style: TextStyle(fontSize: 40)),
-            ),
+            ),*/
 
             Padding(
               padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
@@ -40,10 +58,28 @@ class Home extends StatelessWidget {
               style: TextStyle(fontSize: 20)),
             ),
 
-            Padding(
+            /*Padding(
               padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
               child: const Text('50%',
               style: TextStyle(fontSize: 40)),
+            ),*/
+
+            Container(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                  child: StreamBuilder(
+                    stream: Firestore.instance
+                    .collection('Users')
+                    .document('User1')
+                    .collection('HouseData')
+                    .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) 
+                      return Text('Loading...');
+                      return Text('${snapshot.data.documents[0]['hum']}' + '%',
+                      style: TextStyle(fontSize: 40)
+                      );
+                    },
+                  ),
             ),
 
             new RaisedButton(
