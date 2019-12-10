@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
                   maxLength: 16,
                   obscureText: !isPasswordVisible,
                   decoration: InputDecoration(
-                          hintText: 'Password',
+                          hintText: 'パスワード',
                           suffixIcon: IconButton(
                             icon: Icon(isPasswordVisible
                                   ? Icons.visibility
