@@ -14,45 +14,70 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final emailInputController = new TextEditingController();
-  final passwordInputController = new TextEditingController();
+  final emailInputController = TextEditingController();
+  final passwordInputController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    @override
+  void initState() {
+    isPasswordVisible = false;
+    super.initState();
+  }
+
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: const Text("AGRIMASTERにログイン"),
       ),
-      body: new Center(
-        child: new Form(
-          child: new SingleChildScrollView(
+      body: Center(
+        child: Form(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: new Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const SizedBox(height: 24.0),
-                new TextFormField(
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailInputController,
                   maxLength: 30,
                   decoration: const InputDecoration(
                     border: const UnderlineInputBorder(),
                     labelText: 'メールアドレス',
+                    icon: Icon(
+                            Icons.mail,
+                            color: Colors.grey,
+                          )
                   ),
                 ),
                 const SizedBox(height: 24.0),
-                new TextFormField(
+                TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
                   controller: passwordInputController,
                   maxLength: 16,
-                  decoration: new InputDecoration(
-                    border: const UnderlineInputBorder(),
-                    labelText: 'パスワード',
-                  ),
-                  obscureText: true,
+                  obscureText: !isPasswordVisible,
+                  decoration: InputDecoration(
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordVisible =
+                                      !isPasswordVisible;
+                                  });
+                                },
+                          ),
+                          icon: Icon(Icons.lock)
+                        ),
                 ),
                 const SizedBox(height: 24.0),
-                new Center(
-                  child: new RaisedButton(
+                Center(
+                  child: RaisedButton(
                     child: const Text('ログイン'),
                     onPressed: () {
                       // TODO: ログイン処理
@@ -68,7 +93,7 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 24.0),
                 Center(
-                  child: new RaisedButton(
+                  child: RaisedButton(
                   child: const Text("新規登録"),
                   onPressed: () {
                     // 登録画面へ
