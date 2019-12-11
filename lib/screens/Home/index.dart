@@ -35,6 +35,7 @@ class Home extends StatelessWidget {
                     .collection('Users')
                     .document('User1')
                     .collection('HouseData')
+                    .orderBy('date', descending: true)
                     .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
@@ -71,6 +72,7 @@ class Home extends StatelessWidget {
                     .collection('Users')
                     .document('User1')
                     .collection('HouseData')
+                    .orderBy('date', descending: true)
                     .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
