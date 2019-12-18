@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                       var email = emailInputController.text;
                       var password = passwordInputController.text;
                       Future<FirebaseUser> _user = _signIn(email, password)
-                          .then((FirebaseUser user) => Navigator.of(context).pushReplacementNamed("/home"))
+                          .then((FirebaseUser user) => Navigator.of(context).pushReplacementNamed("/token"))
                           .catchError((e) => print(e));
                       print(_user);
                     },

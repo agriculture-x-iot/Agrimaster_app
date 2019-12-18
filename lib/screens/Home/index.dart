@@ -22,6 +22,25 @@ class Home extends StatelessWidget {
         child: new Column(
           children: <Widget>[
 
+
+            Container(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
+                  child: StreamBuilder(
+                    stream: Firestore.instance
+                    .collection('Users')
+                    .document('User1')
+                    .collection('HouseData')
+                    .orderBy('date', descending: true)
+                    .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) 
+                      return Text('Loading...');
+                      return Text('${snapshot.data.documents[0]['date']}'
+                      );
+                    },
+                  ),
+            ),
+
             Padding(
               padding: EdgeInsets.only(top: 70.0, bottom: 10.0),
               child: const Text('温度',

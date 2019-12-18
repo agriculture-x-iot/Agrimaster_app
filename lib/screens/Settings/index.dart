@@ -228,7 +228,11 @@ class _SettingState extends State<Setting> {
                   padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
 
                   child: StreamBuilder(
-                    stream: Firestore.instance.collection('Users').snapshots(),
+                    stream: Firestore.instance
+                    .collection('Users')
+                    .document('User1')
+                    .collection('HouseData')
+                    .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
                       return Text('Loading...');
