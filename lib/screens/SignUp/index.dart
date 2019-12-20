@@ -230,22 +230,9 @@ class _RegistrationState extends State<Registration> {
   }
 
   _displayError(BuildContext context, String e) async{
-    final snackBar = SnackBar(content: Text(e),
-    backgroundColor: Colors.red,);
-    showDialog(
-      context: context,
-      builder: (context){
-        return SimpleDialog(
-          title: Text("エラー"),
-          children:<Widget>[
-            SimpleDialogOption(
-              onPressed: () => Navigator.pop(context),
-              child: Text(e),
-            ),
-          ],
-        );
-      }
-    );
+    final snackBar = SnackBar(content: Text(e)]);
+    
+    screen.currentState.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 }
