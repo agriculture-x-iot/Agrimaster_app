@@ -230,9 +230,9 @@ class _RegistrationState extends State<Registration> {
   }
 
   _displayError(BuildContext context, String e) async{
-    final snackBar = SnackBar(content: Text(e)]);
+    final snackBar = SnackBar(content: Text(e));
     
-    screen.currentState.removeCurrentSnackBar();
+    _scaffoldKey.currentState.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 }
