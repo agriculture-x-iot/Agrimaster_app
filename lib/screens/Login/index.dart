@@ -186,6 +186,8 @@ class _LoginState extends State<Login> {
 
   _displayError(BuildContext context, String e) async{
     final snackBar = SnackBar(content: Text(e));
+
+    _scaffoldKey.currentState.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
