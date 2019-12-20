@@ -66,23 +66,11 @@ class Home extends StatelessWidget {
                   ),
             ),
 
-            /*Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
-              child: const Text('20℃',
-              style: TextStyle(fontSize: 40)),
-            ),*/
-
             Padding(
               padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
               child: const Text('湿度',
               style: TextStyle(fontSize: 20)),
             ),
-
-            /*Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
-              child: const Text('50%',
-              style: TextStyle(fontSize: 40)),
-            ),*/
 
             Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
