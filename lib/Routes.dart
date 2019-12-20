@@ -27,7 +27,7 @@ class Routes {
         primarySwatch: Colors.green
     ),
     debugShowCheckedModeBanner: false,  //デバッグリボン非表示
-    title: 'Agrimaster App',
+    title: 'AGRIMASTER prot',
   ));
   }
 }

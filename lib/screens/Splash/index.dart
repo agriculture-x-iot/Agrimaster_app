@@ -13,16 +13,18 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
 
-    new Future.delayed(const Duration(seconds: 1))
+    new Future.delayed(const Duration(seconds: 3))
         .then((value) => handleTimeout());
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+     return new Scaffold(
+       backgroundColor: Colors.brown[700],
       body: new Center(
         // TODO: スプラッシュアニメーション
-        child: const CircularProgressIndicator(),
+        child: Image.asset('lib/images/AGRIMASTERwhite.png'),
+//        child: const CircularProgressIndicator(),
       ),
     );
   }
