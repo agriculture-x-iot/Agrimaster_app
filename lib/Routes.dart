@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:agrimaster_app/screens/Login/index.dart';
 import 'package:agrimaster_app/screens/SignUp/index.dart';
-import 'package:agrimaster_app/screens/Home/index.dart';
+import 'package:agrimaster_app/screens/Home/home.dart';
 import 'package:agrimaster_app/screens/Splash/index.dart';
 import 'package:agrimaster_app/screens/Splash/token.dart';
 import 'package:agrimaster_app/screens/Settings/index.dart';
@@ -14,7 +14,7 @@ class Routes {
       '/login': (BuildContext context) => Login(),
       '/token': (BuildContext context) => Token(),
       '/registration': (BuildContext context) => Registration(),
-      '/home': (BuildContext context) => Home(),
+      '/home': (BuildContext context) => Hello(),
       '/setting': (BuildContext context) => Setting(),
       };
 
