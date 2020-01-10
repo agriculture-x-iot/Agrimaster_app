@@ -4,8 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:agrimaster_app/screens/Home/Weather/widget/Weather.dart';
-import 'package:agrimaster_app/screens/Home/Weather/models/WeatherData.dart';
+import 'package:agrimaster_app/screens/Home/TabWidget/widget/Weather.dart';
+import 'package:agrimaster_app/screens/Home/TabWidget/models/WeatherData.dart';
 
 //void main() => runApp(new MyApp());
 
@@ -19,7 +19,7 @@ class WeatherSystem extends StatefulWidget {
 class WeatherState extends State<WeatherSystem> {
   bool isLoading = false;
   WeatherData weatherData;
-  String _cityname;
+  String _cityname = '八王子市';
   TextEditingController _textEditingController = TextEditingController();
 
   void save(String cityData) async{
@@ -48,15 +48,8 @@ class WeatherState extends State<WeatherSystem> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Agri Weather App',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-//          backgroundColor: Colors.blu,
-          appBar: AppBar(
-            title: Text('Agri Weather App'),
-          ),
           body: Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Expanded(
@@ -79,10 +72,10 @@ class WeatherState extends State<WeatherSystem> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Text(_cityname, style: new TextStyle(color: Colors.black)),
-                      ),
+//                      Padding(
+//                        padding: const EdgeInsets.all(0.0),
+//                        child: Text(_cityname, style: new TextStyle(color: Colors.black)),
+//                      ),
                       Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: weatherData != null
