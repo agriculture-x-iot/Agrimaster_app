@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class Home extends StatelessWidget {
+class Temp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: const Text("ホーム"),
-        actions: <Widget>[      // Add 3 lines from here...
-          IconButton(icon: Icon(Icons.settings), onPressed:(){
-            Navigator.of(context).pushNamed("/setting");
-          } ),
-        ], 
-      ),
+//      appBar: new AppBar(
+//        title: const Text("ホーム"),
+//        actions: <Widget>[      // Add 3 lines from here...
+//          IconButton(icon: Icon(Icons.settings), onPressed:(){
+//            Navigator.of(context).pushNamed("/setting");
+//          } ),
+//        ],
+//      ),
       body: new Center(
         child: new Column(
           children: <Widget>[
@@ -66,23 +66,11 @@ class Home extends StatelessWidget {
                   ),
             ),
 
-            /*Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
-              child: const Text('20℃',
-              style: TextStyle(fontSize: 40)),
-            ),*/
-
             Padding(
               padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
               child: const Text('湿度',
               style: TextStyle(fontSize: 20)),
             ),
-
-            /*Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
-              child: const Text('50%',
-              style: TextStyle(fontSize: 40)),
-            ),*/
 
             Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 40.0),
@@ -103,13 +91,13 @@ class Home extends StatelessWidget {
                   ),
             ),
 
-            new RaisedButton(
-            child: const Text("設定"),
-            onPressed: () {
+//            new RaisedButton(
+//            child: const Text("設定"),
+//            onPressed: () {
               // 設定画面へ
-              Navigator.of(context).pushNamed("/setting");
-              },
-            ),
+//              Navigator.of(context).pushNamed("/setting");
+//              },
+//            ),
           ]
         ),
       ),

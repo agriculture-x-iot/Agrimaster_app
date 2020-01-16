@@ -23,10 +23,12 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+     return new Scaffold(
+       backgroundColor: Colors.brown[700],
       body: new Center(
         // TODO: スプラッシュアニメーション
-        child: const CircularProgressIndicator(),
+        child: Image.asset('lib/images/AGRIMASTERwhite.png'),
+//        child: const CircularProgressIndicator(),
       ),
     );
   }
