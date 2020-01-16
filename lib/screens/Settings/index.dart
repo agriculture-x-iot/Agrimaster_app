@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:agrimaster_app/screens/Splash/index.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Setting extends StatefulWidget {
@@ -25,6 +26,8 @@ class _SettingState extends State<Setting> {
   var _start = '';
   var _end = '';
   var _rangeValues = RangeValues(10.0, 30.0);
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   _updateLabels(RangeValues values) {
     _start = '${_rangeValues.start.round()}';
@@ -319,6 +322,7 @@ class _SettingState extends State<Setting> {
                                               onPressed: () {
                                                 //TODO:ログアウト
                                                 // 引数をtrueでダイアログ閉じる
+                                                _auth.signOut();
                                                 Navigator.of(context).pop(true);
                                               },
                                           ),

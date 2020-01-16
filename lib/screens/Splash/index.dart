@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Splash extends StatefulWidget {
@@ -9,12 +10,15 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
 
     new Future.delayed(const Duration(seconds: 1))
-        .then((value) => handleTimeout());
+        .then((value) => _catheLogin());
   }
 
   @override
@@ -28,7 +32,25 @@ class _SplashState extends State<Splash> {
   }
 
   void handleTimeout() {
+
     // ログイン画面へ
     Navigator.of(context).pushReplacementNamed("/login");
+  }
+
+  Future<Null> _catheLogin() async{
+
+    print(_auth);
+
+    FirebaseUser user = await _auth.currentUser();
+
+
+    print("\n\n\n\n");
+    print(user);
+
+    if(user != null){
+      Navigator.of(context).pushReplacementNamed("/home");
+    }else{
+      Navigator.of(context).pushReplacementNamed("/login");
+    }
   }
 }
