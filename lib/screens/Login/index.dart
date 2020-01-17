@@ -36,8 +36,14 @@ class _LoginState extends State<Login> {
         title: const Text("AGRIMASTERにログイン"),
       ),
       body: Center(
+
+        child: new GestureDetector(
+      onHorizontalDragCancel: () {
+      FocusScope.of(context).requestFocus(new FocusNode());
+      },
         child: Form(
           key: _formKey,
+
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -118,6 +124,7 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
+        ),
         ),
       ),
     );

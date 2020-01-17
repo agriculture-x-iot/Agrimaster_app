@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:agrimaster_app/screens/Home/TabWidget/widget/Weather.dart';
 import 'package:agrimaster_app/screens/Home/TabWidget/models/WeatherData.dart';
 
-//void main() => runApp(new MyApp());
-
 class WeatherSystem extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -22,11 +20,13 @@ class WeatherState extends State<WeatherSystem> {
   String _cityname = '八王子市';
   TextEditingController _textEditingController = TextEditingController();
 
+  //検索した都市名を保存する処理
   void save(String cityData) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('city', cityData);
   }
 
+  //保存された都市名をロードし、且つその都市名の天気情報を検索
   void load() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,17 +47,19 @@ class WeatherState extends State<WeatherSystem> {
 //-----------------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return new Scaffold(
+      resizeToAvoidBottomPadding: false,
           body: Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Expanded(
+              child: SingleChildScrollView(
                   child: Column(
 //                mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+
+                      //都市検索用テキストエディタ
                       Padding(
-                        padding: const EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: TextField(
                           decoration: new InputDecoration(
                             labelText: '都市名を入力',
@@ -72,16 +74,21 @@ class WeatherState extends State<WeatherSystem> {
                           },
                         ),
                       ),
+
 //                      Padding(
 //                        padding: const EdgeInsets.all(0.0),
 //                        child: Text(_cityname, style: new TextStyle(color: Colors.black)),
 //                      ),
+
+                    //Whether.dart表示処理
                       Padding(
-                        padding: const EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: weatherData != null
                             ? Weather(weather: weatherData)
                             : Container(),
                       ),
+
+                      //情報更新
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: isLoading
@@ -97,10 +104,12 @@ class WeatherState extends State<WeatherSystem> {
                           color: Colors.black,
                         ),
                       ),
+
                     ],
                   ),
+                 )
                 ),
-              ]))),
+              ])),
     );
   }
 
