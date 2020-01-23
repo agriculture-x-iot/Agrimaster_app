@@ -14,7 +14,7 @@ class Routes {
       '/login': (BuildContext context) => Login(),
       '/token': (BuildContext context) => Token(),
       '/registration': (BuildContext context) => Registration(),
-      '/home': (BuildContext context) => Hello(),
+      '/home': (BuildContext context) => Home(),
       '/setting': (BuildContext context) => Setting(),
       };
 
