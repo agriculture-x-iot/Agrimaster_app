@@ -144,7 +144,7 @@ class _RegistrationState extends State<Registration> {
         Firestore.instance.collection("Users").document(user.uid).setData(
             {
               "name": name,
-              "e-mail": email,
+              "eMail": email,
               "password": inputPassword
             });
 

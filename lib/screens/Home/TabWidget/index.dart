@@ -44,7 +44,6 @@ class _TempState extends State<Temp> {
         child: new Column(
           children: <Widget>[
 
-
             Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
                   child: StreamBuilder(

@@ -11,7 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
   TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -21,24 +23,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
             elevation: 0.7,
             title: const Text('ホーム'),
+
         actions: <Widget>[      // Add 3 lines from here...
           IconButton(icon: Icon(Icons.settings), onPressed:(){
             Navigator.of(context).pushNamed("/setting");
           } ),
         ],
+
             bottom: TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.orange,
                 tabs: <Widget>[
-                  Tab(icon: Icon(Icons.wb_sunny)),
-                  Tab(text: '温度・湿度'),
+                  Tab(icon: Icon(FontAwesomeIcons.cloudSun)),
+                  Tab(icon: Icon(FontAwesomeIcons.thermometerFull)),
                   Tab(icon: Icon(FontAwesomeIcons.chartLine)),
                 ]
             )
         ),
+      
         body: TabBarView(
             controller: _tabController,
             children: <Widget>[
@@ -47,6 +53,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Graph(),
             ]
         )
+
+        //画面タップ時にキーボードをしまうようにする処理
+        body: new GestureDetector(
+            onHorizontalDragCancel: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
     );
   }
 }
