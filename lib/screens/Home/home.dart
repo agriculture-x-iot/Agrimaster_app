@@ -44,8 +44,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ]
             )
         ),
+
+        //画面タップ時にキーボードをしまうようにする処理
+        body: GestureDetector(
+            onHorizontalDragCancel: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
       
-        body: TabBarView(
+        child: TabBarView(
             controller: _tabController,
             children: <Widget>[
               WeatherSystem(),
@@ -53,12 +59,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Graph(),
             ]
         )
-
-        //画面タップ時にキーボードをしまうようにする処理
-        body: new GestureDetector(
-            onHorizontalDragCancel: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
+      )
     );
   }
 }
