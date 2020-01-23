@@ -36,6 +36,7 @@ dependencies:
 
   intl: "^0.15.6"
 
+  charts_flutter: ^0.8.1
   font_awesome_flutter: ^8.5.0
   shared_preferences: any
 

@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                     labelText: 'メールアドレス',
                     icon: Icon(
                             Icons.mail,
-                            color: Colors.grey,
+                            //color: Colors.grey,
                           )
                   ),
                   validator: _validateEmail,

@@ -2,13 +2,15 @@ import 'package:agrimaster_app/screens/Home/TabWidget/index.dart';
 import 'package:agrimaster_app/screens/Home/TabWidget/WeatherSystem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'TabWidget/graph.dart';
 
-class Hello extends StatefulWidget {
+
+class Home extends StatefulWidget {
   @override
-  Home createState() => Home();
+  _HomeState createState() => _HomeState();
 }
 
-class Home extends State<Hello> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
   @override
   void initState() {
@@ -42,7 +44,7 @@ class Home extends State<Hello> with SingleTickerProviderStateMixin {
             children: <Widget>[
               WeatherSystem(),
               Temp(),
-              Temp(),
+              Graph(),
             ]
         )
     );
