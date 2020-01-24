@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:agrimaster_app/Routes.dart';
+import 'package:agrimaster_app/screens/Home/TabWidget/index.dart';
+import 'package:agrimaster_app/screens/Home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Token extends StatefulWidget {
@@ -13,12 +16,23 @@ class Token extends StatefulWidget {
 }
 
 class _SplashState extends State<Token> {
+
+  static Future<String> _getUid() async{
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser user = await _auth.currentUser();
+    print("ユーザーIDは${user.uid}");
+
+    return user.uid;
+    }
+
+  String uid =_getUid().toString();
+
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
 
   StreamSubscription iosSubscription;
-
+/*
   @override
   void initState() {
     super.initState();
@@ -62,7 +76,7 @@ class _SplashState extends State<Token> {
     /// Get the token, save it to the database for current user
     _saveDeviceToken() async {
     // Get the current user
-      String uid = 'apple';
+      //String uid = 'apple';
       //TODO: ユーザー名入れる場所
       // FirebaseUser user = await _auth.currentUser();
 
@@ -72,8 +86,8 @@ class _SplashState extends State<Token> {
       // Save it to Firestore
       if (fcmToken != null) {
         var tokens = _db
-            .collection('users')
-            .document(uid)
+            .collection('Users')
+            .document('')
             .collection('tokens')
             .document(fcmToken);
 
@@ -83,7 +97,15 @@ class _SplashState extends State<Token> {
             'platform': Platform.operatingSystem // optional
           });
       }
-    }
+    }*/
+
+    @override
+    void initState() {
+    // TODO: implement initState
+    Future.delayed(const Duration(seconds: 3))
+        .then((value) => handleTimeout());
+    super.initState();
+  }
 
     @override
     Widget build(BuildContext context) {
@@ -95,7 +117,9 @@ class _SplashState extends State<Token> {
       );
     }
 
+
     void handleTimeout() {
+
       // home画面へ
       Navigator.of(context).pushReplacementNamed("/home");
     }

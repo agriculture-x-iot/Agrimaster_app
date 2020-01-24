@@ -2,19 +2,22 @@ import 'package:agrimaster_app/screens/Home/TabWidget/index.dart';
 import 'package:agrimaster_app/screens/Home/TabWidget/WeatherSystem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'TabWidget/graph.dart';
 
-class Hello extends StatefulWidget {
+
+class Home extends StatefulWidget {
   @override
-  Home createState() => Home();
+  _HomeState createState() => _HomeState();
 }
 
-class Home extends State<Hello> with TickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -43,22 +46,20 @@ class Home extends State<Hello> with TickerProviderStateMixin {
         ),
 
         //画面タップ時にキーボードをしまうようにする処理
-        body: new GestureDetector(
+        body: GestureDetector(
             onHorizontalDragCancel: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
+              FocusScope.of(context).requestFocus(FocusNode());
             },
-
-            //タブレイアウト処理
-              child: new TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                WeatherSystem(),        //WeatherSystem.dartをTab1枚目に表示
-                Temp(),                 //index.dartをTab2枚目に表示
-                Temp(),                 //グラフをTab3枚目に表示
-                  ]
-              )
-            )
-//        )
+      
+        child: TabBarView(
+            controller: _tabController,
+            children: <Widget>[
+              WeatherSystem(),
+              Temp(),
+              Graph(),
+            ]
+        )
+      )
     );
   }
 }
