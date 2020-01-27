@@ -43,6 +43,26 @@ class _SettingState extends State<Setting> {
     _humend = '${_humrangeValues.end.round()}';
   }
 
+  pushtmp() {
+    Firestore.instance
+    .collection('Users')
+    .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+    .updateData({
+      'mintmp': _start,
+      'maxtmp': _end,
+    });
+  }
+
+  pushhum() {
+    Firestore.instance
+    .collection('Users')
+    .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+    .updateData({
+      'minhum': _humstart,
+      'maxhum': _humend,
+    });
+  }
+
   @override
   void initState() {
     _updateLabels(_rangeValues);
@@ -141,6 +161,7 @@ class _SettingState extends State<Setting> {
                   //color: Colors.blueAccent,
                   shape: StadiumBorder(),
                   onPressed: () {
+                    pushtmp();
                     //TODO:設定温度送信
                     screen.currentState.removeCurrentSnackBar();
                     screen.currentState
@@ -209,6 +230,7 @@ class _SettingState extends State<Setting> {
                   //color: Colors.blueAccent,
                   shape: StadiumBorder(),
                   onPressed: () {
+                    pushhum();
                     //TODO:設定湿度送信
                     screen.currentState.removeCurrentSnackBar();
                     screen.currentState
@@ -232,15 +254,14 @@ class _SettingState extends State<Setting> {
 
                   child: StreamBuilder(
                     stream: Firestore.instance
-                    .collection('Users')
-                    .document('User1')
-                    .collection('HouseData')
-                    .snapshots(),
+                      .collection('Users')
+                      .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+                      .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
                       return Text('Loading...');
                       return TextFormField(
-                        initialValue: '${snapshot.data.documents[0]['e-mail']}',
+                        initialValue: '${snapshot.data['e-mail'].toString()}',
                         focusNode: DisableKeybord(),
                         maxLines: 1,
                         decoration: InputDecoration(
@@ -258,14 +279,17 @@ class _SettingState extends State<Setting> {
                 Container(
                   padding: EdgeInsets.only(top: 10, bottom: 30, left: 20, right: 20),
                   child: StreamBuilder(
-                    stream: Firestore.instance.collection('Users').snapshots(),
+                    stream: Firestore.instance
+                      .collection('Users')
+                      .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+                      .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
                       return Text('Loading...');
                       return TextFormField(
                         focusNode: DisableKeybord(),
                         maxLines: 1,
-                        initialValue: '${snapshot.data.documents[0]['password'].toString()}',
+                        initialValue: '${snapshot.data['password'].toString()}',
                         obscureText: !isPasswordVisible,
                         decoration: InputDecoration(
                           hintText: 'Password',
