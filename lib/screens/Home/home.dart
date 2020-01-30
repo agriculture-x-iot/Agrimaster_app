@@ -4,20 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TabWidget/graph.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      }
+    });
   }
 
   @override
@@ -36,13 +39,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
             bottom: TabBar(
                 controller: _tabController,
-                indicatorColor: Colors.orange,
                 tabs: <Widget>[
                   Tab(icon: Icon(FontAwesomeIcons.cloudSun)),
                   Tab(icon: Icon(FontAwesomeIcons.thermometerFull)),
                   Tab(icon: Icon(FontAwesomeIcons.chartLine)),
-                ]
-            )
+                ]),
         ),
 
         //画面タップ時にキーボードをしまうようにする処理
@@ -50,7 +51,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             onHorizontalDragCancel: () {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-      
+
         child: TabBarView(
             controller: _tabController,
             children: <Widget>[
@@ -59,7 +60,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Graph(),
             ]
         )
-      )
+        )
     );
   }
 }
