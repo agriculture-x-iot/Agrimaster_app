@@ -29,7 +29,10 @@ class _RegistrationState extends State<Registration> {
       appBar: new AppBar(
         title: const Text("新規登録"),
       ),
-      body: new Center(
+      body: GestureDetector(
+      onHorizontalDragCancel: () {
+      FocusScope.of(context).requestFocus(FocusNode());
+      },
         child: new Form(
           key: _formKey,
           child: new SingleChildScrollView(
