@@ -118,8 +118,8 @@ class _RegistrationState extends State<Registration> {
                   child: const Text("戻る"),
                   onPressed: () {
                     // ログイン画面へ戻る
-                    //Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed("/login");
+                    Navigator.of(context).pop();
+                    //Navigator.of(context).pushNamed("/login");
                   },
                 ),
                 )

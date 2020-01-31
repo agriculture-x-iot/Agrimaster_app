@@ -2,7 +2,8 @@ import 'package:agrimaster_app/screens/Home/TabWidget/index.dart';
 import 'package:agrimaster_app/screens/Home/TabWidget/WeatherSystem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'TabWidget/graph.dart';
+import 'TabWidget/tempGraph.dart';
+import 'TabWidget/humGraph.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         FocusScope.of(context).requestFocus(new FocusNode());
@@ -43,6 +44,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Tab(icon: Icon(FontAwesomeIcons.cloudSun)),
                   Tab(icon: Icon(FontAwesomeIcons.thermometerFull)),
                   Tab(icon: Icon(FontAwesomeIcons.chartLine)),
+                  Tab(icon: Icon(FontAwesomeIcons.chartLine))
+                ]
+            )
                 ]),
         ),
 
@@ -57,7 +61,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             children: <Widget>[
               WeatherSystem(),
               Temp(),
-              Graph(),
+              TempGraph(),
+              HumGraph()
             ]
         )
         )
