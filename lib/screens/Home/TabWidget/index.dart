@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:agrimaster_app/screens/Home/Home.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 
 class Temp extends StatefulWidget {
@@ -23,7 +24,7 @@ class _TempState extends State<Temp> {
 
     super.initState();
 
-    get();
+    //get();
   }
 
   void get() async{
@@ -36,12 +37,13 @@ class _TempState extends State<Temp> {
 
   @override
   Widget build(BuildContext context) {
+  if(uid == null){
+    get();
+  }
 
-  print("ユーザーIDは$uid だよおおお");
-
-    return new Scaffold(
-      body: new Center(
-        child: new Column(
+    return  Scaffold(
+      body:  Center(
+        child:  Column(
           children: <Widget>[
 
             Container(
@@ -49,15 +51,18 @@ class _TempState extends State<Temp> {
                   child: StreamBuilder(
                     stream: Firestore.instance
                     .collection('Users')
-                    .document('$uid')
+                    .document(uid)
                     .collection('HouseData')
                     .orderBy('date', descending: true)
                     .snapshots(),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) 
-                      return Text('Loading...');
-                      return Text('${snapshot.data.documents[0]['date']}'
-                      );
+                      if (!snapshot.hasData){
+                        return Text('Loading...');
+                      } else{
+                        DateTime date = snapshot.data.documents[0]['date'].toDate();
+                        var date2 = DateFormat('yyyy/MM/dd HH:mm').format(date);
+                        return Text(date2.toString() + ' 時点');
+                      }
                     },
                   ),
             ),
@@ -73,7 +78,7 @@ class _TempState extends State<Temp> {
                   child: StreamBuilder(
                     stream: Firestore.instance
                     .collection('Users')
-                    .document('$uid')
+                    .document(uid)
                     .collection('HouseData')
                     .orderBy('date', descending: true)
                     .snapshots(),
@@ -98,7 +103,7 @@ class _TempState extends State<Temp> {
                   child: StreamBuilder(
                     stream: Firestore.instance
                     .collection('Users')
-                    .document('$uid')
+                    .document(uid)
                     .collection('HouseData')
                     .orderBy('date', descending: true)
                     .snapshots(),
