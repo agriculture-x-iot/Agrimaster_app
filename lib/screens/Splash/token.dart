@@ -32,7 +32,7 @@ class _SplashState extends State<Token> {
 
 
   StreamSubscription iosSubscription;
-/*
+
   @override
   void initState() {
     super.initState();
@@ -79,26 +79,25 @@ class _SplashState extends State<Token> {
       //String uid = 'apple';
       //TODO: ユーザー名入れる場所
       // FirebaseUser user = await _auth.currentUser();
+      //uid = user.uid;
 
       // Get the token for this device
-      String fcmToken = await _fcm.getToken();
+      String deviceToken = await _fcm.getToken();
 
       // Save it to Firestore
-      if (fcmToken != null) {
+      if (deviceToken != null) {
         var tokens = _db
             .collection('Users')
-            .document('')
-            .collection('tokens')
-            .document(fcmToken);
+            .document('$uid');
 
           await tokens.setData({
-            'token': fcmToken,
+            'devtoken': deviceToken,
             'createdAt': FieldValue.serverTimestamp(), // optional
             'platform': Platform.operatingSystem // optional
           });
       }
-    }*/
-
+    }
+/*
     @override
     void initState() {
     // TODO: implement initState
@@ -106,6 +105,7 @@ class _SplashState extends State<Token> {
         .then((value) => handleTimeout());
     super.initState();
   }
+  */
 
     @override
     Widget build(BuildContext context) {

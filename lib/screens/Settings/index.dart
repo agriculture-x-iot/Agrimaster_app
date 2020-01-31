@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:agrimaster_app/screens/Splash/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Setting extends StatefulWidget {
@@ -20,33 +21,157 @@ class DisableKeybord extends FocusNode {
 
 class _SettingState extends State<Setting> {
 
+/*  static Future<String> _getUid() async{
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser user = await _auth.currentUser();
+    print("IDIDID${user.uid}");
+
+    return user.uid;
+  }
+  String uid =_getUid().toString();
+  */
+
+  var uid;
+/*
+  Future<String> inputData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      uid = user.uid.toString();
+    });
+  }
+  */
+FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void get() async{
+    FirebaseUser user = await _auth.currentUser();
+    setState(() {
+      uid = user.uid;
+    });
+  }
+
   bool _active = false;
   void _changeSwitch(bool e) => setState(() => _active = e);
 
-  var _start = '';
-  var _end = '';
+  double _start;
+  double _end;
   var _rangeValues = RangeValues(10.0, 30.0);
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  void _savetmp() async {
+    setState(() {
+      _settmp();  // Shared Preferenceに値を保存する。
+    });
+  }
+
+  // Shared Preferenceに値を保存されているデータを読み込んで_rangeValuesにセットする。
+  _gettmp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // 以下の「counter」がキー名。見つからなければ０を返す
+    setState(() {
+      _humrangeValues = RangeValues(prefs.getDouble('minhum'), prefs.getDouble('maxtmp')) ?? RangeValues(10.0, 80.0);
+      _humupdateLabels(_humrangeValues);
+      _rangeValues = RangeValues(prefs.getDouble('mintmp'), prefs.getDouble('maxtmp')) ?? RangeValues(10.0, 30.0);
+      _updateLabels(_rangeValues);
+    });
+  }
+
+  // Shared Preferenceにデータを書き込む
+  _settmp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // 以下の「counter」がキー名。
+    prefs.setDouble('mintmp', _start);
+    prefs.setDouble('maxtmp', _end);
+  }
 
   _updateLabels(RangeValues values) {
-    _start = '${_rangeValues.start.round()}';
-    _end = '${_rangeValues.end.round()}';
+    _start = _rangeValues.start.roundToDouble();
+    _end = _rangeValues.end.roundToDouble();
   }
 
-  var _humstart = '';
-  var _humend = '';
+  double _humstart;
+  double _humend;
   var _humrangeValues = RangeValues(10.0, 80.0);
+  
+
+  void _savehum() async {
+    setState(() {
+      _sethum();  // Shared Preferenceに値を保存する。
+    });
+  }
+/*
+  // Shared Preferenceに値を保存されているデータを読み込んで_rangeValuesにセットする。
+  _gethum() async {
+    SharedPreferences prefsh = await SharedPreferences.getInstance();
+    // 以下の「counter」がキー名。見つからなければ０を返す
+    setState(() {
+      _humrangeValues = RangeValues(prefsh.getDouble('minhum'), prefsh.getDouble('maxhum')) ?? RangeValues(0.0, 0.0);
+      _humupdateLabels(_humrangeValues);
+    });
+  }
+*/
+  // Shared Preferenceにデータを書き込む
+  _sethum() async {
+    SharedPreferences prefsh = await SharedPreferences.getInstance();
+    // 以下の「counter」がキー名。
+    prefsh.setDouble('minhum', _humstart);
+    prefsh.setDouble('maxhum', _humend);
+  }
+
 
   _humupdateLabels(RangeValues values) {
-    _humstart = '${_humrangeValues.start.round()}';
-    _humend = '${_humrangeValues.end.round()}';
+    _humstart = _humrangeValues.start.roundToDouble();
+    _humend = _humrangeValues.end.roundToDouble();
   }
+/*
+  pullmintmp() {
+    StreamBuilder(
+      stream: Firestore.instance
+      .collection('Users')
+      .document('$uid')
+      .snapshots(),
+      builder: (context, snapshot) {
+        return _start = snapshot.data['mintmp'];
+      },
+    );
+  }
+  pullmaxtmp() {
+    StreamBuilder(
+      stream: Firestore.instance
+      .collection('Users')
+      .document('$uid')
+      .snapshots(),
+      builder: (context, snapshot) {
+        return _end = snapshot.data['maxtmp'];
+      },
+    );
+  }
+  pullminhum() {
+    StreamBuilder(
+      stream: Firestore.instance
+      .collection('Users')
+      .document('$uid')
+      .snapshots(),
+      builder: (context, snapshot) {
+        return _humstart = snapshot.data['minhum'];
+      },
+    );
+  }
+  pullmaxhum() {
+    StreamBuilder(
+      stream: Firestore.instance
+      .collection('Users')
+      .document('$uid')
+      .snapshots(),
+      builder: (context, snapshot) {
+        return _humend = snapshot.data['maxhum'];
+      },
+    );
+  }
+  */
 
   pushtmp() {
     Firestore.instance
     .collection('Users')
-    .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+    .document('$uid')
     .updateData({
       'mintmp': _start,
       'maxtmp': _end,
@@ -56,7 +181,7 @@ class _SettingState extends State<Setting> {
   pushhum() {
     Firestore.instance
     .collection('Users')
-    .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+    .document('$uid')
     .updateData({
       'minhum': _humstart,
       'maxhum': _humend,
@@ -65,11 +190,17 @@ class _SettingState extends State<Setting> {
 
   @override
   void initState() {
-    _updateLabels(_rangeValues);
-
-    _humupdateLabels(_humrangeValues);
 
     isPasswordVisible = false;
+
+    _gettmp();
+    //_gethum();
+    _updateLabels(_rangeValues);
+    _humupdateLabels(_humrangeValues);
+
+    get();
+    //inputData();
+
     super.initState();
   }
 
@@ -89,7 +220,6 @@ class _SettingState extends State<Setting> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-
                 Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 10, left: 5),
                     child: MergeSemantics(
@@ -118,7 +248,7 @@ class _SettingState extends State<Setting> {
                     showValueIndicator: ShowValueIndicator.always,
                     ),
                     child: RangeSlider(
-                        labels: RangeLabels(_start, _end),
+                        labels: RangeLabels(_start.round().toString(), _end.round().toString()),
                         values: _rangeValues,
                         min: 0,
                         max: 60,
@@ -138,7 +268,7 @@ class _SettingState extends State<Setting> {
                             Column(
                               children: <Widget>[
                                 Text(
-                                  '$_start℃',
+                                  '${_start.round()}℃',
                                     style: TextStyle(fontSize: 40),
                                 ),
                                 Text('下限'),
@@ -147,7 +277,7 @@ class _SettingState extends State<Setting> {
                             Column(
                               children: <Widget>[
                                 Text(
-                                  '$_end℃',
+                                  '${_end.round()}℃',
                                     style: TextStyle(fontSize: 40),
                                 ),
                                 Text('上限'),
@@ -162,6 +292,7 @@ class _SettingState extends State<Setting> {
                   shape: StadiumBorder(),
                   onPressed: () {
                     pushtmp();
+                    _savetmp();
                     //TODO:設定温度送信
                     screen.currentState.removeCurrentSnackBar();
                     screen.currentState
@@ -187,7 +318,7 @@ class _SettingState extends State<Setting> {
                     showValueIndicator: ShowValueIndicator.always,
                     ),
                     child: RangeSlider(
-                        labels: RangeLabels(_humstart, _humend),
+                        labels: RangeLabels(_humstart.round().toString(), _humend.round().toString()),
                         values: _humrangeValues,
                         min: 0,
                         max: 100,
@@ -207,7 +338,7 @@ class _SettingState extends State<Setting> {
                             Column(
                               children: <Widget>[
                                 Text(
-                                  '$_humstart%',
+                                  '${_humstart.round()}%',
                                     style: TextStyle(fontSize: 40),
                                 ),
                                 Text('下限'),
@@ -216,7 +347,7 @@ class _SettingState extends State<Setting> {
                             Column(
                               children: <Widget>[
                                 Text(
-                                  '$_humend%',
+                                  '${_humend.round()}%',
                                     style: TextStyle(fontSize: 40),
                                 ),
                                 Text('上限'),
@@ -231,6 +362,7 @@ class _SettingState extends State<Setting> {
                   shape: StadiumBorder(),
                   onPressed: () {
                     pushhum();
+                    _savehum();
                     //TODO:設定湿度送信
                     screen.currentState.removeCurrentSnackBar();
                     screen.currentState
@@ -251,15 +383,16 @@ class _SettingState extends State<Setting> {
 
                 Container(
                   padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-
                   child: StreamBuilder(
                     stream: Firestore.instance
                       .collection('Users')
-                      .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+                      .document('$uid')
                       .snapshots(),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) 
+                      if (!snapshot.hasData) {
                       return Text('Loading...');
+                      } else {
+                        print('----------'+uid+ '-----------');
                       return TextFormField(
                         initialValue: '${snapshot.data['e-mail'].toString()}',
                         focusNode: DisableKeybord(),
@@ -272,6 +405,7 @@ class _SettingState extends State<Setting> {
                           )
                         ),
                       );
+                      }
                     },
                   ),
                 ),
@@ -281,7 +415,7 @@ class _SettingState extends State<Setting> {
                   child: StreamBuilder(
                     stream: Firestore.instance
                       .collection('Users')
-                      .document('C4gdkycVT6a6J3sr9sXhk1T1PaX2')
+                      .document('$uid')
                       .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) 
@@ -346,7 +480,7 @@ class _SettingState extends State<Setting> {
                                               onPressed: () {
                                                 //TODO:ログアウト
                                                 // 引数をtrueでダイアログ閉じる
-                                                _auth.signOut();
+                                                FirebaseAuth.instance.signOut();
                                                 Navigator.of(context).pop(true);
                                               },
                                           ),
