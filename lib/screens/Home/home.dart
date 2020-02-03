@@ -47,8 +47,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Tab(icon: Icon(FontAwesomeIcons.chartLine))
                 ]
             )
-                ]),
-        ),
+                ),
 
         //画面タップ時にキーボードをしまうようにする処理
         body: GestureDetector(

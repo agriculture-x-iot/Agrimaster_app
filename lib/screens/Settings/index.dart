@@ -193,7 +193,7 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 
     isPasswordVisible = false;
 
-    _gettmp();
+    //_gettmp();
     //_gethum();
     _updateLabels(_rangeValues);
     _humupdateLabels(_humrangeValues);
