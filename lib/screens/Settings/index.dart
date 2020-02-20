@@ -67,7 +67,7 @@ FirebaseAuth _auth = FirebaseAuth.instance;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 以下の「counter」がキー名。見つからなければ０を返す
     setState(() {
-      _humrangeValues = RangeValues(prefs.getDouble('minhum'), prefs.getDouble('maxtmp')) ?? RangeValues(10.0, 80.0);
+      _humrangeValues = RangeValues(prefs.getDouble('minhum'), prefs.getDouble('maxhum')) ?? RangeValues(10.0, 80.0);
       _humupdateLabels(_humrangeValues);
       _rangeValues = RangeValues(prefs.getDouble('mintmp'), prefs.getDouble('maxtmp')) ?? RangeValues(10.0, 30.0);
       _updateLabels(_rangeValues);
